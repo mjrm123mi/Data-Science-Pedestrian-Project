@@ -1,0 +1,49 @@
+Vohersage Aufkommen Fußgänger:innen
+
+
+-Bsp. es ist ein Montag und regnet, und kein Feiertag, wieviele Fußgänger:innen erwarte ich?
+-Bsp. bei einem Tag mit 10 Sonnenstunden, zwischen 8 und 12 Uhr wieviele Fußgänger:innen erwarte ich?
+
+
+
+Notizen:
+
+Prozess:
+-Entscheidungsfindungsphase
+-29.12 Datensatz angeschaut und dafür entschieden mit ersten Fragen
+
+Dokumentation:
+In den Json Daten finden wir die Adresse, die Koordinaten, (und bei der 2.ten Kordinate wissen wir nicht was es bedeutet, vlt 2 sensoren?) Maximalspeed, Gehwegbreite (width?), oneway (einbahnstraße)
+
+Mit dazu nehmen:
+name": "Walterstra\u00dfe",
+          "highway": "residential",
+          "maxspeed": "30",
+          "width": "10",
+          "oneway": false,
+          "reversed": true,
+          "length": 71.11800000000001,
+          "address": {
+            "house_number": "13",
+            "road": "Walterstra\u00dfe",
+            "quarter": "Neu-Britz",
+            "suburb": "Neuk\u00f6lln",
+            "borough": "Neuk\u00f6lln",
+            "city": "Berlin",
+            "ISO3166-2-lvl4": "DE-BE",
+            "postcode": "12051",
+            "country": "Deutschland",
+            "country_code": "de"
+
+Frage: Highway Doku, was bedeutet High Way z.b. Residential
+Frage: was ist reversed?
+Frage: length bedeutet der eine abstand von einer koordinate zur anderen?
+
+
+to do: json formate
+-wieviele zähler wollen wir hinzunehmen fürs modell
+-können json nutzen um auszuwählen
+-bsp. 10 residential und andere kategorien (jeweils 10)
+
+Fragen an Helena:
+-Wie das mit dem Wetter machen und wie Zugang zur Wetter API? ist kostenlos?
