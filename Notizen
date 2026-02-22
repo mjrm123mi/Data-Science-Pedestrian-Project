@@ -86,3 +86,10 @@ MESS_DATUM(Referenzdatum), Typ: NUMBER YYYYMMDD
 RSK (tägliche Niederschlagshöhe in mm), Typ: NUMBER
 SDK (tägliche Sonnenscheindauer in Stunden h), Typ: NUMBER
 TMK (Tagesmittel der Lufttemperatur in 2m in °C), Typ: NUMBER
+
+
+Variablen Teelram:
+segment_id = The unique identifier of the street segment, Typ: Integer
+date_local Datumsformat: "2023-01-29 15:00"
+ped_total, Typ: Integer
+
