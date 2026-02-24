@@ -52,33 +52,47 @@ Fragen an Helena:
 Vorgehenweise:
 -TO DO:
 Datenaufarbeitung:
-Kalender einbinden: Schulferien, Feiertage Berlin und Wochenende-Wochentag
-relevante Daten rausfiltern: in Wetterdatensatz und in Zählerdaten für Fußgänger*innen
-.json Format aus Zählerdaten einbinden als weitere Variable (Einbahnstr., Gehwegbreite)
-Wetterdatensatz: pro Tag auf Stunden auffüllen
+- Kalender einbinden: Schulferien, Feiertage Berlin und Wochenende-Wochentag
+- relevante Daten rausfiltern: in Wetterdatensatz und in Zählerdaten für Fußgänger*innen
+- json Format aus Zählerdaten einbinden als weitere Variable (Einbahnstr., Gehwegbreite)
+- Wetterdatensatz: pro Tag auf Stunden auffüllen
+
 Modellieren:
-- PCA (welche Variablen sind interessant)
-- Lineares Modell?/ Nichlineares Modell?
-- KNN
+- Daten normalisieren? counts und wetterwerte ->ja
+- PCA (welche Variablen sind interessant) -> nein
+- Lineares Modell?/ Nichlineares Modell? -> lin. Regression
+
+
+Evaluation:
+-(Precision, Recall, F1-Score)
+- je nach Modell nochmal schauen was Sinn macht
+
 Fragen an Helena:
-1) wie groß dürfen Datensätze sein, die man auf Git hochlädt?
-2) Wir füttern das Modell mit Daten aus Tempelhof und Umgebung (15  Zähler in etwa 2 km Radius). Wir könnten uns vorstellen einen zweiten Datensatz aus Dahlem mit zwei Zählern als weitere Testmenge zu betrachten, um zu schauen, ob das Modell auf andere Viertel übertragbar ist.
+1) wie groß dürfen Datensätze sein, die man auf Git hochlädt? ->passt
+2) Wir füttern das Modell mit Daten aus Tempelhof und Umgebung (15  Zähler in etwa 2 km Radius). Wir könnten
+   uns vorstellen einen zweiten Datensatz aus Dahlem mit zwei Zählern als weitere Testmenge zu betrachten,
+   um zu schauen, ob das Modell auf andere Viertel übertragbar ist. Macht das Sinn oder lieber reinnehmen?
+
 3) Zeitreihencharater der Daten: müssen wir da irgendetwas beachten?
-4) Wir würden Zeit und räumliche Verteilung außer acht lassen.
-5) Unser Enddatum ist 31.12.2024 -wir nehmen an, dass unterschiedliche Datensatzlängen OK sind.
+4) Wir würden Zeit und räumliche Verteilung außer acht lassen (Ort des Zaehlers).
+5) Unser Enddatum ist 31.12.2024 -wir nehmen an, dass unterschiedliche Datensatzlängen OK sind (die Zeitreihen haben unterschiedliche Längen).
 6) Wieiviele Datenpunkte sind minimal notwendig?
 
 Datengrundlage:
 Wetterstationsdaten:
 Station 433 → Tempelhof (schon vorliegend)
 Station 403 → Dahlem (TU)
+Quelle?: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/daily/kl/historical/
+Quelle?: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/daily/kl/historical/KL_Tageswerte_Beschreibung_Stationen.txt
 
-Mitte: Tempelhof (1x): 9000003310.
+
+Mitte: Tempelhof: 9000003310.
 Kreuzberg (etwa 2 km entfernt): 9000005444, 9000004602, 9000004685, 9000004118, 9000005832.
 Westen: Berlin- Dahlem : 9000004561 (Steglitz, aber 1 km entfernt).
+Quelle: https://berlin-zaehlt.de/csv/segments/
 
 Datensatzbeschreibung zum Kima von den Wetterstationen 433 und 403:
-https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/daily/kl/BESCHREIBUNG_obsgermany-climate-daily-kl_de.pdf
+Quelle: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/daily/kl/BESCHREIBUNG_obsgermany-climate-daily-kl_de.pdf
 
 Variablen die wir nutzen wollen:
 STATIONS_ID(Station ID), Typ: VARCHAR2
