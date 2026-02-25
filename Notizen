@@ -100,7 +100,6 @@ Fragen an Helena:
 Datengrundlage:
 Wetterstationsdaten:
 Station 433 → Tempelhof (schon vorliegend)
-Station 403 → Dahlem (TU)
 Quelle?: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/daily/kl/historical/
 Quelle?: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/daily/kl/historical/KL_Tageswerte_Beschreibung_Stationen.txt
 
@@ -116,13 +115,19 @@ Quelle: https://opendata.dwd.de/climate_environment/CDC/observations_germany/cli
 Variablen die wir nutzen wollen:
 STATIONS_ID(Station ID), Typ: VARCHAR2
 MESS_DATUM(Referenzdatum), Typ: NUMBER YYYYMMDD
-RSK (tägliche Niederschlagshöhe in mm), Typ: NUMBER
-SDK (tägliche Sonnenscheindauer in Stunden h), Typ: NUMBER
-TMK (Tagesmittel der Lufttemperatur in 2m in °C), Typ: NUMBER
+Maryam: Messdatumstart 19480101 ..hier abschneiden?
 
+RSK (tägliche Niederschlagshöhe in mm), Typ: NUMBER
+
+SDK (tägliche Sonnenscheindauer in Stunden h), Typ: NUMBER
+Maryam: Besser SHK_TAG weil bei SDK sind keine passenden Werte. (SDK = -999)
+
+TMK (Tagesmittel der Lufttemperatur in 2m in °C), Typ: NUMBER
+Maryam: Was sind passende Werte? (TMK = z.b. 1010.70);
 
 Variablen Teelram:
 segment_id = The unique identifier of the street segment, Typ: Integer
 date_local Datumsformat: "2023-01-29 15:00"
 ped_total, Typ: Integer
 
+Maryam: Hinweis sind nicht alle stündlichen Werte da!!
