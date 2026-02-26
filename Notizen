@@ -120,7 +120,11 @@ Maryam: Messdatumstart 19480101 ..hier abschneiden?
 RSK (tägliche Niederschlagshöhe in mm), Typ: NUMBER
 
 SDK (tägliche Sonnenscheindauer in Stunden h), Typ: NUMBER
-Maryam: Besser SHK_TAG weil bei SDK sind keine passenden Werte. (SDK = -999)
+Maryam (SDK = -999) behandeln
+SDK muss raus weil zuviele -999.. Werte
+50608 = -999.000000
+weil insgesamt sind es 53744 Werte und wenn 50608 davon -999.000.. sind, dann ist das zu viel.
+
 
 TMK (Tagesmittel der Lufttemperatur in 2m in °C), Typ: NUMBER
 Maryam: Was sind passende Werte? (TMK = z.b. 1010.70);
