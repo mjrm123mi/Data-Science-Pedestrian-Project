@@ -1,39 +1,170 @@
 # Pedestrian_Forecast_DataScience Dokumentation
 
-## 1 Lineares Regressionsmodell Evaluation:
+## Projektentwicklung
 
-<img src="images/1.png" alt="Lineares Regressionsmodell Evaluation" width="300">
+Wir wollen mit lokalen Berliner und Open Source Daten arbeiten.
+Ende 2025 fiel unsere Wahl auf Daten des interessanten Citizen Science Projekts "Berlin zählt Mobilität" des ADFC Berlin und des DLR (Deutschen Zentrums für Luft- und Raumfahrt). Auf der Projektseite findet sich ein Dashboard mit den aktuell erhobenen Daten (ADFC Berlin und DLR (2026)).
+Es werden Telraam Geräte an Einwohner*innen Berlins verliehen, die sie im 1. Stock eines Gebäudes aufstellen. Die Telraam Geräte erfassen automatisiert Fußverkehr, Zweiräder, PKW und größere Fahrzeuge (Telraam (2026a)). 
+Für eine gelungene Modellierung wollen wir weitere Daten miteinbeziehen. 
+Da wir Wetterdaten für den Fußverkehr für relevant halten, haben wir Daten einer Wetterstation des DWD (Deutscher Wetterdienst) miteinbezogen. 
+Todo: Des weiteren haben wir die gesetzlichen Feiertage miteingebunden 
+
+## Datengrundlage 
+
+Für unsere Modelle nutzen wir Daten der unter "Datenquellen" genannten Quellen. 
+Die Station "Tempelhofer Feld" des DWD hat einen umfangreichen Datensatz, der eine weitreichende zeitliche Überschneidung (toDo wie lang?) mit den Daten des Telraam gewährleistet.
+Ausgehend von der Wetterstation haben wir in einem Umkreis von 2 km 6 passende Telraam Sensoren gefunden, die verschieden große/von Autos befahrene Straßen repräsentieren. Durch die kleinräumige Verteilung der Telraam Sensoren wollen wir eine Verbesserung von Modellen durch die Wetterdaten wahrscheinlicher machen.
+
+### Telraam
+
+Wir nutzen folgende 6 Telraam Sensoren (siehe Abb. 1):
+Zählernummer 3310 in der Manfred-von-Richthofen-Straße 
+Zählernummer 4118 in der Weserstraße 210
+Zählernummer 4602 in der Bendastraße 11
+Zählernummer 4685 in der Emserstraße 122
+Zählernummer 5444 im Britzer Damm 5
+Zählernummer 5832 in der Donaustraße 131
+
+<img src="images/SubplotZaehler.jpg" alt="Abb.1: Übersicht der Fußgänger*innen pro Stunde je Zähler" width="300">
 
 
-## 2 Random Forest Evaluation:
 
-<img src="images/2.png" alt="Random Forest" width="300">
+Folgende stündliche Daten der Telraam Datensätze gehen in unsere Modelle ein:
+"date_local": Startzeitpunkt der Messung, quasi stetige stündliche Werte 
+"uptime": Wert liegt zwischen 0 und 1. Prozentzahl der Zeit, die tatsächlich gemessen wurde. 
+Normalerweise liegt dieser Wert bei 0.75, da die restliche Zeit für interne Berechnungen verwendet wird. Außerdem messen die Sensoren nicht bei Dunkelheit, deswegen ist uptime während der Dämmerung relevant.
+Wir haben uptime <0.5 rausgefiltert um die Datenqualität zu verbessern. Außerdem wurde uptime > 1 gelöscht, weil für die Stunde nur Daten für eine Stunde und nicht länger vorliegen sollten.
+"car_total": Anzahl der Autos (Summe der Autos von rechts und von links).
+Es wurde car_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet.
+"bike_total": Anzahl der Fahrräder (Summe der Fahrräder von rechts und von links).
+Es wurde car_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet.
+"ped_total": Anzahl der Fußgängerinnen (Summe der Fußgängerinnen von rechts und von links).
+Es wurde ped_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet.
+Wir haben nur Fußverkehr, der kleiner als 1800 ist verwendet, um die Datenqualität zu verbessern.
+
+<img src="images/ProStundeJeZaehler.jpg" alt="Abb.2: Fußgängerinnen pro Stunde aller verwendeten Zähler" width="300">
+Informationen zu den Variablen finden sich bei Postman (2026) und zu Berechnung der Variablen bei Telraam (2026b).
+
+### Klimadaten
+
+Wir nutzen stündliche Werte der Wetterstation des DWD auf dem Tempelhofer Feld (Station Nummer 433).
+Folgende Wetterdaten sind in die Modelle integriert:
+Temperatur [°C]: Temperatur in 2 m Höhe. toDo filtern
+Niederschlagshöhe [mm]: Niederschlag. toDo filtern
+Todo: Es wurden Daten mit -999 mit dem Median ersetzt.
+ 
+## todo: passende Überschrift? weglassen? Material und Methoden
+
+Für das Projekt nutzten wir die Software Python 3.13.7, als IDE Visual Studio Code und PyCharm jeweils mit Jupyter. 
+Für die Arbeit mit Daten verwendeten wir das Paket Pandas (siehe VanderPlas(2024)) und für das Modellieren das Paket Scikit-Learn (siehe Géron (2023)).
+
+## Ziel des Projektes
+
+Mittels maschinellem Lernen soll ein Modell erstellt werden, welches bei Ausfällen der Zählung oder Berechnung der Anzahl von Fußgänger*innen mithilfe von Wetterdaten und den verbleibenden Anzahl von Autos und von Fahrrädern helfen kann Datenlücken zu füllen.
+
+## Modellierung
+
+Die Variable, die wir vorhersagen wollen ist die Anzahl an Fußgänger*innen (ped_total_corrected). 
+Die Features, die in die jeweiligen Modelle eingehen wurden je Modell ausgewählt (todo nach welchen Kriterien?).  
+Zur Modellierung splitten wir den Datensatz in eine Trainings- und eine Testmenge. 
+Für die Bewertung der Modelle wurde der mittlere absoluter Fehler (MAE), der Standardschätzfehler (RMSE) (Vanderplas, 2024, S. 586)und das Bestimmtheitsmaß (R²) herangezogen.
+
+### Baselinemodell
+
+Datengrundlage des Baselinemodells sind die Werte der Fußgänger*innen aller Zähler (siehe Abb.2)
+
+Beim Baselinemodell nutzen wir jeweils den Mittelwert der Fußgänger*innen von Testmenge und von Trainingsmenge zur Vorhersage. 
+
+<img src="images/baselinemodell_evaluation.png" alt="Abb. 3: Baslinemodell aus dem Mittelwert der Fußgänger*innen mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
 
 
-## 3 Plot:
+### Lineares Modell
 
-<img src="images/3.png" alt="Plot" width="300">
+Das Lineare Modell liefert schon bessere Ergebnisse als das Baselinemodell, ist aber noch nicht sehr gut.
 
-## 4 Corrected:
-Mit corrected ist es schlechter geworden:
+#### Anpassen von Variablen
+In Abb. 4 sieht man die Ergebnisse, nach dem Training eines linearen Regressionsmodells mit täglichen Wetterdaten und ohne DOY. 
 
-<img src="images/4corrected.png" alt="Corrected" width="300">
+<img src="images/1.png" alt="Abb. 4: Lineares Regressionsmodell mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
 
-## 5 uptime auf mindestens 0,5:
-Dann uptime abgeschnitten wenn weniger als 0,5:
+Nach Korrektur mit uptime der Anzahl der Fußgänger*innen, Verwendung von täglichen Wetterdaten und hinzufügen von DOY overfittet das Modell nicht mehr so stark. 
+todo: Bild mit finalen Features einfügen.
 
-<img src="images/5uptime.png" alt="Uptime" width="300">
+### Random Forest Modell
 
-Damit ist es besser geworden beim Training. Allerdings beim Test kann es noch verbessert werden. (Das Modell overfittet noch)
+Das Random Forest Modell liefert gute Ergebnisse. In Abb. 5 sieht man die erste Version des Modells. Hier wurde noch nicht mit uptime korrigiert und es wurde mit täglichen Wetterdaten und ohne DOY trainiert.
 
-<img src="images/6.png" alt="Verbesserung nach Uptime Filter" width="300">
+<img src="images/2.png" alt="Abb. 5: Random Forest Modell erste Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
 
-## 6 Cross Validierung und Hyperparameter Tuning:
+
+#### Anpassungen/Änderungen der Features bei Random Forest Modell:
+Mit der "uptime"- Korrektur von Fußgänger*innne, Fahrradfahrerinnen und Autos performt das Modell in der zweiten Version schlechter (siehe Abb. 6)
+
+<img src="images/4corrected.png" alt="Abb. 6: Random Forest Modell zweite Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
+
+Mit dem Löschen von Daten uptime wenn weniger als 0,5:
+<img src="images/5uptime.png" width="300">
+performt das Modell in der dritten Version wieder besser (siehe Abb.7)
+<img src="images/6.png" alt="Abb. 7: Random Forest Modell dritte Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
+
+In unserer letzten vierten Version wurden (siehe Abb. 8) konnte die performance des Modells nochmal verbessert werden. 
+
+todo: Bild einfügen mit finalen Variablen
+
+ Allerdings sollte der Testfehler noch verbessert werden. Es liegt ein Overfitting vor, welches wir versuchen mit Anpassung der Hyperparamter zu beheben.
+
+
+### Cross Validierung und Hyperparameter Tuning für Random Forest Modell:
+
+Durch die Verwendung von Crossvalidierung für die Auswahl der besten Hyperparameter konnten wir das Modell leicht verbessern. Es bleibt jedoch bei einem Overfitting.
 
 <img src="images/7.png" alt="Hyperparameter Tuning" width="300">
+todo: weglassen?
 
-
-## 7 Weitere Features:
+### 7 Weitere Features:
 "year", "day" und "segment id" kommen hinzu. Das Modell ist damit besser geworden.
 
 <img src="images/8.png" alt="Weitere Features" width="300">
+
+## Zusammenfassung
+
+Durch den Mittelwert konnte keine Vorhersage für die Anzahl der Fußgänger*innen getroffen werden. 
+Eine lineare Regression bewirkt ebenfalls keine gute Vorhersage. 
+Durch Random Forest ist die Vorhersage gut. Leider bleibt ein Overfitting und ein MAE von todo weiterhin bestehen.
+
+
+## Ausblick
+
+Im Zuge der Beschäftigung der Daten sind uns weitere interessante Fragestellungen begegnet, die in einem umfangreicheren Projekt oder einer Abschlussarbeit behandelt werden könnten.
+
+Folgende weitere Fragestellungen könnten verfolgt werden:
+- einen ausgefallenen Telraam Sensor mithilfe eines Modells auf Grundlage der Daten anderer Sensoren ersetzen
+- die Generalisierbarkeit des Modells auf Berlin, andere S2 Telraam Sensoren testen
+- unter Einbezug von räumlichen Daten und der Fußgänger*innen von rechts und von links die Laufkundschaft von Läden mit einem Modell vorhersagen
+
+
+## Datenquellen 
+
+"Berlin zählt Mobilität", bereitgestellt von ADFC Berlin und DLR, abgerufen von https://daten.berlin.de/datensaetze/berlin-zaehlt-mobilitaet unter der Lizenz CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)   
+
+"Stündliche Klimadaten Regen und Temperatur", bereitgestellt vom DWD, abgerufen von https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/ unter der CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)   
+
+
+
+## Literaturquellen
+
+ADFC Berlin und DLR (2026) Berlin zählt Mobilität. Abgerufen am 11.03.2026 von https://we-count.codefor.de/
+
+Géron, A. (2023) Praxiseinstieg Maschine Learning mit Scikit-Learn, Keras und TensorFLow. 3. Auflage, dpunkt.verlag GmbH.
+
+Postman (2026) Public API TELRAAM 1.2. Abgerufen am 11.03.2026 von https://documenter.getpostman.com/view/8210376/TWDRqyaV#3bb3c6bd-ea23-4329-b885-0d142403ecbb
+
+Telraam (2026a) Berlin zählt Mobilität. Abgerufen am 11.03.2026 von https://telraam.net/en/S2
+
+Telraam (2026b) Understanding the Telraam API. Abgerufen am 11.03.2026 von https://faq.telraam.net/api-introduction
+
+VanderPlas, J. (2024) Handbuch Data Science mit Python. 1. Auflage, dpunkt.verlag GmbH.
+
+toDo: DS Course Book (, verif. am ..)
+
+Der KI-Assistent der HTW Berlin wurde für Fragestellungen zum Code genutzt.
