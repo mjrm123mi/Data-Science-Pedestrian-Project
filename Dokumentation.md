@@ -52,8 +52,13 @@ Folgende Wetterdaten sind in die Modelle integriert:
 Temperatur [°C]: Temperatur in 2 m Höhe. toDo filtern
 Niederschlagshöhe [mm]: Niederschlag. toDo filtern
 Todo: Es wurden Daten mit -999 mit dem Median ersetzt.
+
+### Datumsdaten
+
+Wir haben verschiedene Informationen aus dem Datum generiert. Um die Datensätze zu mergen wurde das Datum in ein datetime Format überführt.
+todo: nutzen wir all diese Daten? Über Datetime haben wir am Ende der Datenvorbereitung "stunde", "tag", "monat", "jahr", DOY (Tag im Jahr), und ""
  
-## todo: passende Überschrift? weglassen? Material und Methoden
+## Material und Methoden
 
 Für das Projekt nutzten wir die Software Python 3.13.7, als IDE Visual Studio Code und PyCharm jeweils mit Jupyter. 
 Für die Arbeit mit Daten verwendeten wir das Paket Pandas (siehe VanderPlas(2024)) und für das Modellieren das Paket Scikit-Learn (siehe Géron (2023)).
