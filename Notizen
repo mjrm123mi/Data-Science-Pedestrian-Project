@@ -217,4 +217,4 @@ Daten Rauswerfen: plot 3 (beschriftung schlecht), Datensatz tägliche Werte
 gelöscht: # Spaltennamen fixen- Leerzeichen entfernen
 #df_wetter.columns = df_wetter.columns.str.strip()  # Entfernt Leerzeichen am Anfang und Ende
 
-Das Ende.
+Das Ende. Das Ende
