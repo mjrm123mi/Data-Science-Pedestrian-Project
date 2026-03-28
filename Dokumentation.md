@@ -25,7 +25,8 @@ Zählernummer 5444 im Britzer Damm 5
 Zählernummer 5832 in der Donaustraße 131
 
 <img src="images/SubplotZaehler.jpg" alt="Abb.1: Übersicht der Fußgänger*innen pro Stunde je Zähler" width="300">
-
+<br>
+Abb.1: Übersicht der Fußgänger*innen pro Stunde je Zähler
 
 
 Folgende stündliche Daten der Telraam Datensätze gehen in unsere Modelle ein:
@@ -52,7 +53,12 @@ Wir haben nur Fußverkehr, der kleiner als 1800 ist verwendet, um die Datenquali
 ped_total hat 12058 fehlerhafte Einträge. Allerdings handelt es sich um einen systematischen Fehler von +/- 1 . Wir entscheiden uns die Werte im Dataframe zu behalten und nicht zu korrigieren.
 
 <img src="images/ProStundeJeZaehler.jpg" alt="Abb.2: Fußgängerinnen pro Stunde aller verwendeten Zähler" width="300">
+<br>
+Abb.2: Fußgängerinnen pro Stunde aller verwendeten Zähler
+
+<br>
 Informationen zu den Variablen finden sich bei Postman (2026) und zu Berechnung der Variablen bei Telraam (2026b).
+
 
 ### Klimadaten
 
@@ -82,7 +88,9 @@ Mittels maschinellem Lernen soll ein Modell erstellt werden, welches bei Ausfäl
 ## Modellierung
 
 Die Variable, die wir vorhersagen wollen ist die Anzahl an Fußgänger*innen (ped_total_corrected). 
-Die Features, die in die jeweiligen Modelle eingehen wurden je Modell ausgewählt (TODO nach welchen Kriterien?).  
+Die Features, die in die jeweiligen Modelle eingehen wurden je Modell ausgewählt.
+Wir haben verschiedene Features ausprobiert, um die Performance der Modelle zu verbessern. 
+In dem Prozess haben wir zwischenevaluiert und die Fehlermetriken und Scores miteinander verglichen.
 Zur Modellierung splitten wir den Datensatz in eine Trainings- und eine Testmenge. 
 Für die Bewertung der Modelle wurde der mittlere absoluter Fehler (MAE), der Standardschätzfehler (RMSE) (Vanderplas, 2024, S. 586)und das Bestimmtheitsmaß (R²) herangezogen.
 
@@ -93,7 +101,7 @@ Datengrundlage des Baselinemodells sind die Werte der Fußgänger*innen aller Z�
 Beim Baselinemodell nutzen wir jeweils den Mittelwert der Fußgänger*innen von Testmenge und von Trainingsmenge zur Vorhersage. 
 
 <img src="images/baselinemodell_evaluation.png" alt="Abb. 3: Baslinemodell aus dem Mittelwert der Fußgänger*innen mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
-
+<br> Abb. 3: Baslinemodell aus dem Mittelwert der Fußgänger*innen mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
 ### Lineares Modell
 
@@ -102,37 +110,52 @@ Die Annahmen für eine Linare Regression sind:
 -Unabhängigkeit, identisch vertieltes Rauschen
 -Homoskedastizität
 -Normalverteiltes Rauschen der Fehlerterme (Mihaljević, 2023, DS CourseBook)
-TODO prüfen
-Das Lineare Modell liefert schon bessere Ergebnisse als das Baselinemodell, ist aber noch nicht sehr gut.
+
+Wir haben die 4 Annahmen geprüft, allerdings sind die Voraussetzungen nicht ganz erfüllt. 
+Da es sich aber nicht um ein statistisches Modell handelt nutzen wir besonders um
+die Einflussnahmen der einzelnen Features sichtbar zu machen, wenn sie einen linearen Zusammenhang haben,
+die lineare Regression.
+
+Das Lineare Modell liefert schon bessere Ergebnisse als das Baselinemodell, beim Test liegt R2 bei etwa 0,46 und der MAE beim 18,30.
 
 #### Anpassen von Variablen
 In Abb. 4 sieht man die Ergebnisse, nach dem Training eines linearen Regressionsmodells mit täglichen Wetterdaten und ohne DOY (Day of Year). 
 
 <img src="images/1.png" alt="Abb. 4: Lineares Regressionsmodell mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
+<br> Abb. 4: Lineares Regressionsmodell mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
-Nach Korrektur mit uptime der Anzahl der Fußgänger*innen, Verwendung von täglichen Wetterdaten und hinzufügen von DOY overfittet das Modell nicht mehr so stark. 
-todo: Bild mit finalen Features einfügen.
+Nach Korrektur mit uptime der Anzahl der Fußgänger*innen, Verwendung von täglichen Wetterdaten und 
+hinzufügen von DOY overfittet das Modell nicht mehr so stark.
 
 ### Random Forest Modell
 
 Das Random Forest Modell liefert gute Ergebnisse. In Abb. 5 sieht man die erste Version des Modells. Hier wurde noch nicht mit uptime korrigiert und es wurde mit täglichen Wetterdaten und ohne DOY trainiert.
 
 <img src="images/2.png" alt="Abb. 5: Random Forest Modell erste Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
-
+<br> Abb. 5: Random Forest Modell erste Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
 #### Anpassungen/Änderungen der Features bei Random Forest Modell:
 Mit der "uptime"- Korrektur von Fußgänger*innnen, Fahrradfahrerinnen und Autos performt das Modell in der zweiten Version schlechter (siehe Abb. 6)
 
 <img src="images/4corrected.png" alt="Abb. 6: Random Forest Modell zweite Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
+<br> Abb. 6: Random Forest Modell zweite Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
 Mit dem Löschen von Daten uptime wenn weniger als 0,5:
 <img src="images/5uptime.png" width="300">
+
 performt das Modell in der dritten Version wieder besser (siehe Abb.7)
-<img src="images/6.png" alt="Abb. 7: Random Forest Modell dritte Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
+<img src="images/RandomForestwenigerUptime.png" alt="Abb. 7: Random Forest Modell dritte Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
+<br>Abb. 7: Random Forest Modell dritte Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
 In unserer letzten vierten Version wurden (siehe Abb. 8) konnte die performance des Modells nochmal verbessert werden. 
 
-todo: Bild einfügen mit finalen Variablen
+<img src="images/RandomForest_2ndModell_Features.png" width="300">
+<img src="images/RandomForest_2ndModell.png" width="300">
+<br> Abb. 8: Random Forest Modell vierte Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
+
+<img src="images/RandomForest_3ndModell_Features.png" width="300">
+<img src="images/RandomForest_3ndModell.png" width="300">
+
 
  Allerdings sollte der Testfehler noch verbessert werden. Es liegt ein Overfitting vor, welches wir versuchen mit Anpassung der Hyperparamter zu beheben.
 
