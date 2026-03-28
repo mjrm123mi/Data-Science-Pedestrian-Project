@@ -147,19 +147,22 @@ Mit dem Löschen von Daten uptime wenn weniger als 0,5:
 <img src="images/5uptime.png" width="300">
 
 performt das Modell in der dritten Version wieder besser (siehe Abb.7)
+<br>
 <img src="images/RandomForestwenigerUptime.png" alt="Abb. 7: Random Forest Modell dritte Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
 <br>Abb. 7: Random Forest Modell dritte Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
 In unserer vierten Version wurden (siehe Abb. 8) konnte die performance des Modells nochmal verbessert werden. 
 
-<img src="images/RandomForest_2ndModell_Features.png" width="300">
-<img src="images/RandomForest_2ndModell.png" width="300">
+
+<br> <img src="images/RandomForest_2ndModell_Features.png" width="300">
+
+<br> <img src="images/RandomForest_2ndModell.png" width="300">
 <br> Abb. 8: Random Forest Modell vierte Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
 In der finalen Version (siehe Abb.9) mit Hinzunahme der Autogeschwindigkeiten sieht das Modell nun folgendermaßen aus:
 
-<img src="images/RandomForest_3ndModell_Features.png" width="300">
-<img src="images/RandomForest_3ndModell.png" width="300">
+<br> <img src="images/RandomForest_3ndModell_Features.png" width="300">
+<br> <img src="images/RandomForest_3ndModell.png" width="300">
 <br> Abb. 9: Random Forest Modell finale Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
  Allerdings sollte der Testfehler noch verbessert werden. Es liegt ein Overfitting vor, welches wir versuchen mit Anpassung der Hyperparamter zu beheben.
@@ -176,11 +179,11 @@ Die Features "year", "day" und "segment id" werden hinzugenommen. Das Modell ist
 <img src="images/8.png" alt="Weitere Features" width="300">
 <br> Abb. 9: Random Forest Modell nach Hyperparametertuning mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
-Das Random Forest Modell nach Hyperparametertuning unter Nutzung der finalen Variablen ist in Abb. 10 zu sehen.
+Das Random Forest Modell nach Hyperparametertuning unter Nutzung der finalen Variablen ist in Abb. 10 zu sehen. <br>
 <img src="images/RandomForest_3ndModell_Features.png" alt="Weitere Features" width="300">
 ## Zusammenfassung
 
-In Abbildung 10 sind die finalen Modelle im Vergleich zu sehen.
+In Abbildung 10 sind die finalen Modelle im Vergleich zu sehen. <br>
 <img src="images/Ergebnisse_gesamt_alleModelle.png" alt="Weitere Features" width="300">
 <br> Abb. 10: Übersicht aller Modelle mit absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 

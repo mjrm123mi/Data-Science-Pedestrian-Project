@@ -1,9 +1,9 @@
+Info:
+Die Notizen zeigen einen Ausschnitt unserer Überlegungen und Gedanken die wir uns im Modell-Entwicklungsprozess gemacht haben.
 Vohersage Aufkommen Fußgänger:innen
-
 
 -Bsp. es ist ein Montag und regnet, und kein Feiertag, wieviele Fußgänger:innen erwarte ich?
 -Bsp. bei einem Tag mit 10 Sonnenstunden, zwischen 8 und 12 Uhr wieviele Fußgänger:innen erwarte ich?
-
 
 
 Notizen:
@@ -12,44 +12,11 @@ Prozess:
 -Entscheidungsfindungsphase
 -29.12 Datensatz angeschaut und dafür entschieden mit ersten Fragen
 
-Dokumentation:
-In den Json Daten finden wir die Adresse, die Koordinaten, (und bei der 2.ten Kordinate wissen wir nicht was es bedeutet, vlt 2 sensoren?) Maximalspeed, Gehwegbreite (width?), oneway (einbahnstraße)
-
-Mit dazu nehmen:
-name": "Walterstra\u00dfe",
-          "highway": "residential",
-          "maxspeed": "30",
-          "width": "10",
-          "oneway": false,
-          "reversed": true,
-          "length": 71.11800000000001,
-          "address": {
-            "house_number": "13",
-            "road": "Walterstra\u00dfe",
-            "quarter": "Neu-Britz",
-            "suburb": "Neuk\u00f6lln",
-            "borough": "Neuk\u00f6lln",
-            "city": "Berlin",
-            "ISO3166-2-lvl4": "DE-BE",
-            "postcode": "12051",
-            "country": "Deutschland",
-            "country_code": "de"
-
-Frage: Highway Doku, was bedeutet High Way z.b. Residential
-Frage: was ist reversed?
-Frage: length bedeutet der eine abstand von einer koordinate zur anderen?
-
-
-to do: json formate
--wieviele zähler wollen wir hinzunehmen fürs modell
--können json nutzen um auszuwählen
--bsp. 10 residential und andere kategorien (jeweils 10)
-
 
 22.02.26
 Vorgehenweise:
--todo:
-Reale Szenarien überlegen: DONE
+
+Reale Szenarien überlegen:
 
 - Szenario1: "an einem wochentag in 13-15 uhr erwarte ich soviele menschen in der gegend"
 (Ich möchte diese Frage beantworten weil z.b. ein Gerät ausgefallen ist und ich die Daten auffüllen möchte)
@@ -83,7 +50,7 @@ Evaluation:
 Dokumenation
 -Copy Rights von den Datensätzen einfügen - done
 -Infos zu den Variablen rausschreiben: https://documenter.getpostman.com/view/8210376/TWDRqyaV#3bb3c6bd-ea23-4329-b885-0d142403ecbb - done
-(todo: teritary und redidential etc. recherchieren)
+
 
 Fragen an Helena:
 1) wie groß dürfen Datensätze sein, die man auf Git hochlädt? ->passt
@@ -160,8 +127,7 @@ Weiterschreiben Dokumentation
 commit bei git
 Endergebnis komplett, Variablennamen angepasst 
 
-ToDo Laura und Maryam: 
-- Einbinden von Variablen carspeed? (Laura/Maryam)
+
 
 
 Vorraussetzungen linearer Regression:
@@ -174,18 +140,13 @@ Homoskedastizität: Streuung der Fehler nicht konstant (Varianz des Fehlers Feat
 
 
 Aufräumen:
-- (Evtl. Variablen (z.B. v85 mit Fehlwerten), die nicht genutzt werden am Ende rauswerfen)?
--todo raussuchen im Script/Text und bearbeiten
+- (Evtl. Variablen (z.B. v85 mit Fehlwerten), die nicht genutzt werden am Ende rauswerfen)
+
 - Dateien umbenennen
 - Dateien löschen
 - ganz am Ende: Abbildung Gesamtevaluation erstellen
 
 
-Offene Fragen mit Maryam:
-Abb.1 sollte ersetzt werden (ausgabe ist anders -> weniger Unterschied zwischen Test und Train aber schlechter)
-möchtest du die features Stunde, Tag, Monat, Jahr für das Modell drinlassen? (ich hab nur Stunde dringelassen, weil mit den anderen nicht gearbeitet wurde- denke DOY deckt das ab.)
-
-Deswegen würde ich Abb. 8 rausnehmen.
 
 Anfängliche Überlegungen zum Baselinemodell:
 #Wie viel Leute zwischen 13 und 15 uhr erwarte ich im gesamten Umkreis im Durchschnitt aller Station?
