@@ -11,7 +11,7 @@ Da wir Wetterdaten für den Fußverkehr für relevant halten, haben wir Daten ei
 ## Datengrundlage 
 
 Für unsere Modelle nutzen wir Daten der unter "Datenquellen" genannten Quellen. 
-Die Station "Tempelhofer Feld" des DWD hat einen umfangreichen Datensatz, der eine weitreichende zeitliche Überschneidung (TODO wie lang?) mit den Daten des Telraam gewährleistet.
+Die Station "Tempelhofer Feld" des DWD hat einen umfangreichen Datensatz, der eine weitreichende zeitliche Überschneidung mit den Daten des Telraam gewährleistet.
 Ausgehend von der Wetterstation haben wir in einem Umkreis von 2 km 6 passende Telraam Sensoren gefunden, die verschieden große/von Autos befahrene Straßen repräsentieren. Durch die kleinräumige Verteilung der Telraam Sensoren wollen wir eine Verbesserung von Modellen durch die Wetterdaten wahrscheinlicher machen.
 
 ### Telraam
@@ -72,14 +72,13 @@ Es wurden Daten mit -999 mit dem Median ersetzt.
 
 Wir haben verschiedene Informationen aus dem Datum generiert. Um die Datensätze zu mergen wurde das Datum in ein datetime Format überführt.
 Über Datetime haben wir am Ende der Datenvorbereitung die Variablen "stunde", "tag", "monat", "jahr", DOY (Tag im Jahr), "wochentag" und "wochenende" generiert.
-TODO: noch weiter überprüfen welche Datetime Daten wir nutzen.
 Die Wochentage "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So" haben wir one-hot encoded nach VanderPlas (2004, S. 445 f.).
 
 
 ## Material und Methoden
 
 Für das Projekt nutzten wir die Software Python 3.13.7, als IDE Visual Studio Code und PyCharm jeweils mit Jupyter. 
-Für die Arbeit mit Daten verwendeten wir das Paket Pandas (siehe VanderPlas(2024)) und für das Modellieren das Paket Scikit-Learn (siehe Géron (2023)).
+Für die Arbeit mit Daten verwendeten wir das Paket Pandas und für das Modellieren das Paket Scikit-Learn.
 
 ## Ziel des Projektes
 
@@ -114,7 +113,11 @@ Die Annahmen für eine Linare Regression sind:
 Wir haben die 4 Annahmen geprüft, allerdings sind die Voraussetzungen nicht ganz erfüllt. 
 Da es sich aber nicht um ein statistisches Modell handelt nutzen wir besonders um
 die Einflussnahmen der einzelnen Features sichtbar zu machen, wenn sie einen linearen Zusammenhang haben,
-die lineare Regression.
+die lineare Regression (siehe Abb. 4b).
+
+<img src="images/LinearesModell_koeffienten.png" width="300">
+<br> Abb. 4b: Finale Koeffizienten des Linearen Modells
+
 
 Das Lineare Modell liefert schon bessere Ergebnisse als das Baselinemodell, beim Test liegt R2 bei etwa 0,46 und der MAE beim 18,30.
 
@@ -147,15 +150,17 @@ performt das Modell in der dritten Version wieder besser (siehe Abb.7)
 <img src="images/RandomForestwenigerUptime.png" alt="Abb. 7: Random Forest Modell dritte Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
 <br>Abb. 7: Random Forest Modell dritte Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
-In unserer letzten vierten Version wurden (siehe Abb. 8) konnte die performance des Modells nochmal verbessert werden. 
+In unserer vierten Version wurden (siehe Abb. 8) konnte die performance des Modells nochmal verbessert werden. 
 
 <img src="images/RandomForest_2ndModell_Features.png" width="300">
 <img src="images/RandomForest_2ndModell.png" width="300">
 <br> Abb. 8: Random Forest Modell vierte Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
+In der finalen Version (siehe Abb.9) mit Hinzunahme der Autogeschwindigkeiten sieht das Modell nun folgendermaßen aus:
+
 <img src="images/RandomForest_3ndModell_Features.png" width="300">
 <img src="images/RandomForest_3ndModell.png" width="300">
-
+<br> Abb. 9: Random Forest Modell finale Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
  Allerdings sollte der Testfehler noch verbessert werden. Es liegt ein Overfitting vor, welches wir versuchen mit Anpassung der Hyperparamter zu beheben.
 
@@ -164,19 +169,24 @@ In unserer letzten vierten Version wurden (siehe Abb. 8) konnte die performance 
 
 Durch die Verwendung von Crossvalidierung für die Auswahl der besten Hyperparameter konnten wir das Modell leicht verbessern. Es bleibt jedoch bei einem Overfitting.
 
-<img src="images/7.png" alt="Hyperparameter Tuning" width="300">
-todo: weglassen?
 
-### 7 Weitere Features:
-"year", "day" und "segment id" kommen hinzu. Das Modell ist damit besser geworden.
+###  Zwischenstand mit Features:
+Die Features "year", "day" und "segment id" werden hinzugenommen. Das Modell ist damit besser geworden.
 
 <img src="images/8.png" alt="Weitere Features" width="300">
+<br> Abb. 9: Random Forest Modell nach Hyperparametertuning mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
+Das Random Forest Modell nach Hyperparametertuning unter Nutzung der finalen Variablen ist in Abb. 10 zu sehen.
+<img src="images/RandomForest_3ndModell_Features.png" alt="Weitere Features" width="300">
 ## Zusammenfassung
+
+In Abbildung 10 sind die finalen Modelle im Vergleich zu sehen.
+<img src="images/Ergebnisse_gesamt_alleModelle.png" alt="Weitere Features" width="300">
+<br> Abb. 10: Übersicht aller Modelle mit absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)
 
 Durch den Mittelwert konnte keine Vorhersage für die Anzahl der Fußgänger*innen getroffen werden. 
 Eine lineare Regression bewirkt ebenfalls keine gute Vorhersage. 
-Durch Random Forest ist die Vorhersage gut. Leider bleibt ein Overfitting und ein MAE von TODO weiterhin bestehen.
+Durch Random Forest ist die Vorhersage gut. Leider bleibt ein Overfitting und ein MAE von 9 weiterhin bestehen.
 
 
 ## Ausblick
@@ -201,8 +211,6 @@ Folgende weitere Fragestellungen könnten verfolgt werden:
 
 ADFC Berlin und DLR (2026) Berlin zählt Mobilität. Abgerufen am 11.03.2026 von https://we-count.codefor.de/
 
-Géron, A. (2023) Praxiseinstieg Maschine Learning mit Scikit-Learn, Keras und TensorFLow. 3. Auflage, dpunkt.verlag GmbH.
-
 Postman (2026) Public API TELRAAM 1.2. Abgerufen am 11.03.2026 von https://documenter.getpostman.com/view/8210376/TWDRqyaV#3bb3c6bd-ea23-4329-b885-0d142403ecbb
 
 Telraam (2026a) Berlin zählt Mobilität. Abgerufen am 11.03.2026 von https://telraam.net/en/S2
@@ -211,6 +219,6 @@ Telraam (2026b) Understanding the Telraam API. Abgerufen am 11.03.2026 von https
 
 VanderPlas, J. (2024) Handbuch Data Science mit Python. 1. Auflage, dpunkt.verlag GmbH.
 
-TODO: DS Course Book (, verif. am ..)
+Mihaljević, H. (2023), DataScience CourseBook
 
 Der KI-Assistent der HTW Berlin wurde für Fragestellungen zum Code genutzt.
