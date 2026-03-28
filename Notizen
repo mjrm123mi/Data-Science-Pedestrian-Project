@@ -161,36 +161,29 @@ commit bei git
 Endergebnis komplett, Variablennamen angepasst 
 
 ToDo Laura und Maryam: 
+- Plausibilität left-right (Laura)
+- OneHotEncoding (Laura)
+- Einbinden von Variablen carspeed? (Laura/Maryam)
+- y ausrechnen für Beispiel- Geräteausfall (Laura und Maryam)
+- Tageslänge (Laura)
+- Lineare Regression Vorraussetzungen einfügen (Maryam)
+- Evtl. Validierungsmenge bei 5-fold für Hyperparametern bei GridSearch einfügen (Maryam)
 
-Prio hoch:
+Vorraussetzungen linearer Regression:
 
-- sollte nicht eine Validierungsmenge genutzt werden zur Auswahl des besten Hyperparameters? (bei 5-fold) eher nicht..
-
-- kann man in die Modelle einfach Kategorische Variablen miteinfügen: Ja das geht. In unserem Fall muss man aber (besonders für die lineare Regression mit dem One-Hot encoder arbeiten)
-
-- siehe Buch: ausrechnen von Tageslichtstunden, Kategorisieren von Wochentagen 
-
-- bei linearer Regression: Variablen rausnehmen und Vorraussetzungen prüfen:
 Bei der linearen Regression sollten ja lineare Zusammenhänge bestehen und 
 Der bedingte Erwartungswert soll linear sein (systematische Zusammenhang näherungsweise Linear): Falls nicht ist das Modell verzerrt -> lieber nichtlineare Modelle verwenden, Polynome
 Unabhängiges, identisch verteiltes Rauschen (i.i.d.): falls nicht, z.B. bei räumlichen oder zeitlichen Abhängigkeiten: Zeitreihenanalyse, Cross Validation mit zeitlicher Struktur
 Normalverteiltes Rauschen
 Homoskedastizität: Streuung der Fehler nicht konstant (Varianz des Fehlers Featureabhängig)
 
+
+Aufräumen:
+- (Evtl. Variablen (z.B. v85 mit Fehlwerten), die nicht genutzt werden am Ende rauswerfen)?
 -todo raussuchen im Script/Text und bearbeiten
-
-- ganz am Ende: Abbildung Gesamtevaluation
-
-Prio Mittel:
-- Evtl. Daten (z.B. v85 mit Fehlwerten), die nicht genutzt werden am Ende rauswerfen
-- plausibilität der Daten mit left + right = total testen
-- Tageslänge miteinbinden (ist da was bei den Wetterdaten dabei?)
-- Funktion schreiben für Ergebniszusammenfassung
-- Einbinden von Variablen carspeed?
-
-Prio Niedrig:
-- json miteinbinden
-- Feiertag miteinbinden 
+- Dateien umbenennen
+- Dateien löschen
+- ganz am Ende: Abbildung Gesamtevaluation erstellen
 
 
 Offene Fragen mit Maryam:
@@ -199,21 +192,10 @@ möchtest du die features Stunde, Tag, Monat, Jahr für das Modell drinlassen? (
 
 Deswegen würde ich Abb. 8 rausnehmen.
 
-Beim baselinemodell habe ich folgendes gelöscht. Das ließ sich sonst nicht damit vereinbaren, dass wir nur schon mit test und train Daten arbeiten - aber wir können das auch nochmal implementieren, wenn du @Mariam einen Vorschlag hast. 
-#baselinemodel1 = df_modellvariablen.groupby(df_modellvariablen["stunde"])["pedtotal_corrected"].mean()
-#baselinemodel1.reset_index().rename(columns={"date_local": "Stunde"}) #alle mittelwerte von pedtotal
-#todo: Baseline Modelle evaluieren und mit lin Reg und Random Forest vergleichen
-
+Anfängliche Überlegungen zum Baselinemodell:
 #Wie viel Leute zwischen 13 und 15 uhr erwarte ich im gesamten Umkreis im Durchschnitt aller Station?
 #von 13-14 Uhr ist der Durchnitt für pedtotal= 20.134553 + 24.612427 = 44.74698.
 #Das Modell berücksichtigt keine Unterschiede zwischen den Tagen, also dass z.b. am Mo unterschiedlich viele Leute unterwegs sind als am So.
 
-Daten Rauswerfen: plot 3 (beschriftung schlecht), Datensatz tägliche Werte
 
-## 3 Plot:
-
-<img src="images/3.png" alt="Plot" width="300">
-
-gelöscht: # Spaltennamen fixen- Leerzeichen entfernen
-#df_wetter.columns = df_wetter.columns.str.strip()  # Entfernt Leerzeichen am Anfang und Ende
 
