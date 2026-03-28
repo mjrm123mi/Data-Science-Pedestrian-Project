@@ -161,8 +161,6 @@ commit bei git
 Endergebnis komplett, Variablennamen angepasst 
 
 ToDo Laura und Maryam: 
-- Plausibilität left-right (Laura)
-- OneHotEncoding (Laura)
 - Einbinden von Variablen carspeed? (Laura/Maryam)
 - y ausrechnen für Beispiel- Geräteausfall (Laura und Maryam)
 - Tageslänge (Laura)

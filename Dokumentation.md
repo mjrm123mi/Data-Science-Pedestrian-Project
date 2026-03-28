@@ -35,13 +35,20 @@ Normalerweise liegt dieser Wert bei 0.75, da die restliche Zeit für interne Ber
 Außerdem messen die Sensoren nicht bei Dunkelheit, deswegen ist uptime während der Dämmerung relevant.
 Wir haben uptime <0.5 rausgefiltert um die Datenqualität zu verbessern. 
 Außerdem wurde uptime > 1 gelöscht, weil für die Stunde nur Daten für eine Stunde und nicht länger vorliegen sollten.
+
 "car_total": Anzahl der Autos (Summe der Autos von rechts und von links).
-Es wurde car_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet.
+Es wurde car_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet. car_total hat 17854 fehlerhafte Einträge. Allerdings handelt es sich um einen systematischen Fehler von +/- 1 . Wir entscheiden uns die Werte im Dataframe zu behalten und nicht zu korrigieren.
+
+"car_speed" 10 -70: Verteilung der Autogeschwindigkeit in bins von 10 km/h, z.B. ist der erste bin 0 km/h-10 km/h etc. Die Einheit ist % der totalen 100 % der Geschwindikeiten angegeben (Postman(2026)).
+
 "bike_total": Anzahl der Fahrräder (Summe der Fahrräder von rechts und von links).
-Es wurde bike_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet.
+Es wurde bike_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet. bike_total hat 16042 fehlerhafte Einträge. Allerdings handelt es sich um einen systematischen Fehler von +/- 1 . Wir entscheiden uns die Werte im Dataframe zu behalten und nicht zu korrigieren.
+
+
 "ped_total": Anzahl der Fußgängerinnen (Summe der Fußgängerinnen von rechts und von links).
 Es wurde ped_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet.
 Wir haben nur Fußverkehr, der kleiner als 1800 ist verwendet, um die Datenqualität zu verbessern.
+ped_total hat 12058 fehlerhafte Einträge. Allerdings handelt es sich um einen systematischen Fehler von +/- 1 . Wir entscheiden uns die Werte im Dataframe zu behalten und nicht zu korrigieren.
 
 <img src="images/ProStundeJeZaehler.jpg" alt="Abb.2: Fußgängerinnen pro Stunde aller verwendeten Zähler" width="300">
 Informationen zu den Variablen finden sich bei Postman (2026) und zu Berechnung der Variablen bei Telraam (2026b).
@@ -57,8 +64,10 @@ Es wurden Daten mit -999 mit dem Median ersetzt.
 ### Datumsdaten
 
 Wir haben verschiedene Informationen aus dem Datum generiert. Um die Datensätze zu mergen wurde das Datum in ein datetime Format überführt.
-Über Datetime haben wir am Ende der Datenvorbereitung "stunde", "tag", "monat", "jahr", DOY (Tag im Jahr), "wochentag" und "wochenende".
-TODO: noch weiter überprüfen welche Daytime Daten wir nutzen.
+Über Datetime haben wir am Ende der Datenvorbereitung die Variablen "stunde", "tag", "monat", "jahr", DOY (Tag im Jahr), "wochentag" und "wochenende" generiert.
+TODO: noch weiter überprüfen welche Datetime Daten wir nutzen.
+Die Wochentage "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So" haben wir one-hot encoded nach VanderPlas (2004, S. 445 f.).
+
 
 ## Material und Methoden
 
