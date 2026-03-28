@@ -6,13 +6,12 @@ Wir wollen mit lokalen Berliner und Open Source Daten arbeiten.
 Ende 2025 fiel unsere Wahl auf Daten des interessanten Citizen Science Projekts "Berlin zählt Mobilität" des ADFC Berlin und des DLR (Deutschen Zentrums für Luft- und Raumfahrt). Auf der Projektseite findet sich ein Dashboard mit den aktuell erhobenen Daten (ADFC Berlin und DLR (2026)).
 Es werden Telraam Geräte an Einwohner*innen Berlins verliehen, die sie im 1. Stock eines Gebäudes aufstellen. Die Telraam Geräte erfassen automatisiert Fußverkehr, Zweiräder, PKW und größere Fahrzeuge (Telraam (2026a)). 
 Für eine gelungene Modellierung wollen wir weitere Daten miteinbeziehen. 
-Da wir Wetterdaten für den Fußverkehr für relevant halten, haben wir Daten einer Wetterstation des DWD (Deutscher Wetterdienst) miteinbezogen. 
-Todo: Des weiteren haben wir die gesetzlichen Feiertage miteingebunden 
+Da wir Wetterdaten für den Fußverkehr für relevant halten, haben wir Daten einer Wetterstation des DWD (Deutscher Wetterdienst) miteinbezogen.
 
 ## Datengrundlage 
 
 Für unsere Modelle nutzen wir Daten der unter "Datenquellen" genannten Quellen. 
-Die Station "Tempelhofer Feld" des DWD hat einen umfangreichen Datensatz, der eine weitreichende zeitliche Überschneidung (toDo wie lang?) mit den Daten des Telraam gewährleistet.
+Die Station "Tempelhofer Feld" des DWD hat einen umfangreichen Datensatz, der eine weitreichende zeitliche Überschneidung (TODO wie lang?) mit den Daten des Telraam gewährleistet.
 Ausgehend von der Wetterstation haben wir in einem Umkreis von 2 km 6 passende Telraam Sensoren gefunden, die verschieden große/von Autos befahrene Straßen repräsentieren. Durch die kleinräumige Verteilung der Telraam Sensoren wollen wir eine Verbesserung von Modellen durch die Wetterdaten wahrscheinlicher machen.
 
 ### Telraam
@@ -32,12 +31,14 @@ Zählernummer 5832 in der Donaustraße 131
 Folgende stündliche Daten der Telraam Datensätze gehen in unsere Modelle ein:
 "date_local": Startzeitpunkt der Messung, quasi stetige stündliche Werte 
 "uptime": Wert liegt zwischen 0 und 1. Prozentzahl der Zeit, die tatsächlich gemessen wurde. 
-Normalerweise liegt dieser Wert bei 0.75, da die restliche Zeit für interne Berechnungen verwendet wird. Außerdem messen die Sensoren nicht bei Dunkelheit, deswegen ist uptime während der Dämmerung relevant.
-Wir haben uptime <0.5 rausgefiltert um die Datenqualität zu verbessern. Außerdem wurde uptime > 1 gelöscht, weil für die Stunde nur Daten für eine Stunde und nicht länger vorliegen sollten.
+Normalerweise liegt dieser Wert bei 0.75, da die restliche Zeit für interne Berechnungen verwendet wird. 
+Außerdem messen die Sensoren nicht bei Dunkelheit, deswegen ist uptime während der Dämmerung relevant.
+Wir haben uptime <0.5 rausgefiltert um die Datenqualität zu verbessern. 
+Außerdem wurde uptime > 1 gelöscht, weil für die Stunde nur Daten für eine Stunde und nicht länger vorliegen sollten.
 "car_total": Anzahl der Autos (Summe der Autos von rechts und von links).
 Es wurde car_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet.
 "bike_total": Anzahl der Fahrräder (Summe der Fahrräder von rechts und von links).
-Es wurde car_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet.
+Es wurde bike_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet.
 "ped_total": Anzahl der Fußgängerinnen (Summe der Fußgängerinnen von rechts und von links).
 Es wurde ped_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet.
 Wir haben nur Fußverkehr, der kleiner als 1800 ist verwendet, um die Datenqualität zu verbessern.
@@ -49,15 +50,16 @@ Informationen zu den Variablen finden sich bei Postman (2026) und zu Berechnung 
 
 Wir nutzen stündliche Werte der Wetterstation des DWD auf dem Tempelhofer Feld (Station Nummer 433).
 Folgende Wetterdaten sind in die Modelle integriert:
-Temperatur [°C]: Temperatur in 2 m Höhe. toDo filtern
-Niederschlagshöhe [mm]: Niederschlag. toDo filtern
-Todo: Es wurden Daten mit -999 mit dem Median ersetzt.
+Temperatur [°C]: Temperatur in 2 m Höhe. Daten wurden auf Plausibilität geprüft.
+Niederschlagshöhe [mm]: Niederschlag. Daten wurden auf Plausibilität geprüft.
+Es wurden Daten mit -999 mit dem Median ersetzt.
 
 ### Datumsdaten
 
 Wir haben verschiedene Informationen aus dem Datum generiert. Um die Datensätze zu mergen wurde das Datum in ein datetime Format überführt.
-todo: nutzen wir all diese Daten? Über Datetime haben wir am Ende der Datenvorbereitung "stunde", "tag", "monat", "jahr", DOY (Tag im Jahr), und ""
- 
+Über Datetime haben wir am Ende der Datenvorbereitung "stunde", "tag", "monat", "jahr", DOY (Tag im Jahr), "wochentag" und "wochenende".
+TODO: noch weiter überprüfen welche Daytime Daten wir nutzen.
+
 ## Material und Methoden
 
 Für das Projekt nutzten wir die Software Python 3.13.7, als IDE Visual Studio Code und PyCharm jeweils mit Jupyter. 
@@ -70,7 +72,7 @@ Mittels maschinellem Lernen soll ein Modell erstellt werden, welches bei Ausfäl
 ## Modellierung
 
 Die Variable, die wir vorhersagen wollen ist die Anzahl an Fußgänger*innen (ped_total_corrected). 
-Die Features, die in die jeweiligen Modelle eingehen wurden je Modell ausgewählt (todo nach welchen Kriterien?).  
+Die Features, die in die jeweiligen Modelle eingehen wurden je Modell ausgewählt (TODO nach welchen Kriterien?).  
 Zur Modellierung splitten wir den Datensatz in eine Trainings- und eine Testmenge. 
 Für die Bewertung der Modelle wurde der mittlere absoluter Fehler (MAE), der Standardschätzfehler (RMSE) (Vanderplas, 2024, S. 586)und das Bestimmtheitsmaß (R²) herangezogen.
 
@@ -85,10 +87,16 @@ Beim Baselinemodell nutzen wir jeweils den Mittelwert der Fußgänger*innen von 
 
 ### Lineares Modell
 
+Die Annahmen für eine Linare Regression sind: 
+-Linearität
+-Unabhängigkeit, identisch vertieltes Rauschen
+-Homoskedastizität
+-Normalverteiltes Rauschen der Fehlerterme (Mihaljević, 2023, DS CourseBook)
+TODO prüfen
 Das Lineare Modell liefert schon bessere Ergebnisse als das Baselinemodell, ist aber noch nicht sehr gut.
 
 #### Anpassen von Variablen
-In Abb. 4 sieht man die Ergebnisse, nach dem Training eines linearen Regressionsmodells mit täglichen Wetterdaten und ohne DOY. 
+In Abb. 4 sieht man die Ergebnisse, nach dem Training eines linearen Regressionsmodells mit täglichen Wetterdaten und ohne DOY (Day of Year). 
 
 <img src="images/1.png" alt="Abb. 4: Lineares Regressionsmodell mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
 
@@ -103,7 +111,7 @@ Das Random Forest Modell liefert gute Ergebnisse. In Abb. 5 sieht man die erste 
 
 
 #### Anpassungen/Änderungen der Features bei Random Forest Modell:
-Mit der "uptime"- Korrektur von Fußgänger*innne, Fahrradfahrerinnen und Autos performt das Modell in der zweiten Version schlechter (siehe Abb. 6)
+Mit der "uptime"- Korrektur von Fußgänger*innnen, Fahrradfahrerinnen und Autos performt das Modell in der zweiten Version schlechter (siehe Abb. 6)
 
 <img src="images/4corrected.png" alt="Abb. 6: Random Forest Modell zweite Version mit mittlerem absoluter Fehler (MAE), Standardschätzfehler (RMSE) und Bestimmtheitsmaß (R²)" width="300">
 
@@ -135,7 +143,7 @@ todo: weglassen?
 
 Durch den Mittelwert konnte keine Vorhersage für die Anzahl der Fußgänger*innen getroffen werden. 
 Eine lineare Regression bewirkt ebenfalls keine gute Vorhersage. 
-Durch Random Forest ist die Vorhersage gut. Leider bleibt ein Overfitting und ein MAE von todo weiterhin bestehen.
+Durch Random Forest ist die Vorhersage gut. Leider bleibt ein Overfitting und ein MAE von TODO weiterhin bestehen.
 
 
 ## Ausblick
@@ -170,6 +178,6 @@ Telraam (2026b) Understanding the Telraam API. Abgerufen am 11.03.2026 von https
 
 VanderPlas, J. (2024) Handbuch Data Science mit Python. 1. Auflage, dpunkt.verlag GmbH.
 
-toDo: DS Course Book (, verif. am ..)
+TODO: DS Course Book (, verif. am ..)
 
 Der KI-Assistent der HTW Berlin wurde für Fragestellungen zum Code genutzt.
