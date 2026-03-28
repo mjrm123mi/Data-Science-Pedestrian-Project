@@ -162,10 +162,7 @@ Endergebnis komplett, Variablennamen angepasst
 
 ToDo Laura und Maryam: 
 - Einbinden von Variablen carspeed? (Laura/Maryam)
-- y ausrechnen für Beispiel- Geräteausfall (Laura und Maryam)
-- Tageslänge (Laura)
-- Lineare Regression Vorraussetzungen einfügen (Maryam)
-- Evtl. Validierungsmenge bei 5-fold für Hyperparametern bei GridSearch einfügen (Maryam)
+
 
 Vorraussetzungen linearer Regression:
 

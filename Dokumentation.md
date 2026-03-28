@@ -39,7 +39,8 @@ Außerdem wurde uptime > 1 gelöscht, weil für die Stunde nur Daten für eine S
 "car_total": Anzahl der Autos (Summe der Autos von rechts und von links).
 Es wurde car_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet. car_total hat 17854 fehlerhafte Einträge. Allerdings handelt es sich um einen systematischen Fehler von +/- 1 . Wir entscheiden uns die Werte im Dataframe zu behalten und nicht zu korrigieren.
 
-"car_speed" 10 -70: Verteilung der Autogeschwindigkeit in bins von 10 km/h, z.B. ist der erste bin 0 km/h-10 km/h etc. Die Einheit ist % der totalen 100 % der Geschwindikeiten angegeben (Postman(2026)).
+"car_speed" 10 -70: Verteilung der Autogeschwindigkeit in bins von 10 km/h, z.B. ist der erste bin 0 km/h-10 km/h etc. Die Einheit ist in % der totalen 100 % der Geschwindigkeiten angegeben (Postman(2026)).
+Die Summe der bins wurden überprüft und ergeben zusammen immer 100.
 
 "bike_total": Anzahl der Fahrräder (Summe der Fahrräder von rechts und von links).
 Es wurde bike_total nach Telraam (2026b) mittels "uptime" auf stündliche Werte hochgerechnet. bike_total hat 16042 fehlerhafte Einträge. Allerdings handelt es sich um einen systematischen Fehler von +/- 1 . Wir entscheiden uns die Werte im Dataframe zu behalten und nicht zu korrigieren.
